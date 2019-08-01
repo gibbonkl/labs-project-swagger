@@ -1,0 +1,320 @@
+---
+swagger: "2.0"
+info:
+  description: "Server do projeto Game of Bols"
+  version: "1.0.0"
+  title: "Game Of Bols"
+  contact:
+    email: "rafael.romeu_BOLS@compasso.com.br"
+host: "gob-dev.azurewebsites.net"
+basePath: "/"
+tags:
+- name: "DailyNote"
+  description: "Tudo sobre Daily Notes"
+- name: "HelpCenter"
+  description: "Todas as Postagens se encontram aqui"
+schemes:
+- "https"
+- "http"
+paths:
+  /daily/{operacao}:
+    post:
+      tags:
+      - "DailyNote"
+      summary: "Recebe uma lista de Daily Notes"
+      description: "Está rota envia uma lista de dailies de acordo com a operação\
+        \ escolhida - user ou data"
+      operationId: "dailyOperacaoPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "operacao"
+        in: "path"
+        description: "{operacao} = user,  para buscar por username ou {operacao} =\
+          \ data, para buscar por data."
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "No body da requisição deve ser enviado o username ou a data\
+          \ que deseja filtrar"
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        200:
+          description: "Operação bem sucedida"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DailyNote"
+        500:
+          description: "Erro interno no servidor"
+      x-swagger-router-controller: "DailyNote"
+  /helpcenter/atividade/{pagina}:
+    get:
+      tags:
+      - "HelpCenter"
+      summary: "Busca lista de Postagens do HelpCenter"
+      description: "Está rota retorna uma lista com as 5 últimas postagens a serem\
+        \ editadas juntamente com a quantidade de páginas"
+      operationId: "helpcenterAtividadePaginaGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pagina"
+        in: "path"
+        description: "número da página"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListaHelpCenter"
+        500:
+          description: "Erro interno"
+      x-swagger-router-controller: "HelpCenter"
+  /helpcenter/query/{dados}/{pagina}:
+    get:
+      tags:
+      - "HelpCenter"
+      summary: "Busca lista de Postagens do HelpCenter"
+      description: "Está rota retorna uma lista com as 5 postagens e a quantidade\
+        \ de páginas"
+      operationId: "helpcenterQueryDadosPaginaGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "dados"
+        in: "path"
+        description: "dados a serem pesquisados no titulo ou no corpo da postagem"
+        required: true
+        type: "string"
+      - name: "pagina"
+        in: "path"
+        description: "número da página"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ListaHelpCenter"
+        500:
+          description: "Erro interno"
+      x-swagger-router-controller: "HelpCenter"
+definitions:
+  DailyNote:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        example: "5d271fad0f01b10033eeeb61"
+      data:
+        type: "string"
+        example: "11/7/2019"
+      ativo:
+        type: "boolean"
+      permissao:
+        type: "boolean"
+      usuario:
+        type: "string"
+        example: "borbalbano"
+      createdAt:
+        type: "string"
+        example: "2019-07-11T11:38:22.014Z"
+      updatedAt:
+        type: "string"
+        example: "2019-07-11T11:38:22.014Z"
+      imagem:
+        type: "string"
+        example: "4d8729ed-aecb-4975-ba6d-1662b008a56b.jpg"
+      __v:
+        type: "integer"
+        example: 0
+      corpo:
+        $ref: "#/definitions/DailyNote_corpo"
+    example:
+      createdAt: "2019-07-11T11:38:22.014Z"
+      ativo: true
+      corpo:
+        ontem: "Review, retro e planning da sprint 02"
+        hoje: "seguir a planning e iniciar a pesquisa sobre chatbots"
+        impedimento: "nenhum"
+      data: "11/7/2019"
+      __v: 0
+      imagem: "4d8729ed-aecb-4975-ba6d-1662b008a56b.jpg"
+      usuario: "borbalbano"
+      _id: "5d271fad0f01b10033eeeb61"
+      permissao: true
+      updatedAt: "2019-07-11T11:38:22.014Z"
+  HelpCenter:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        example: "5d40420402fcf20034a77ee6"
+      data:
+        type: "string"
+        example: "11/7/2019"
+      comentarios:
+        type: "array"
+        items:
+          type: "string"
+      tags:
+        type: "array"
+        items:
+          type: "string"
+          example: "Alura"
+      likes:
+        type: "array"
+        items:
+          type: "string"
+      interacoes:
+        type: "integer"
+        example: 6
+      resolvido:
+        type: "boolean"
+      ativo:
+        type: "boolean"
+      permissao:
+        type: "boolean"
+      username:
+        type: "string"
+        example: "borbalbano"
+      corpo:
+        type: "string"
+        example: "<p>texto aleatorio no corpo da postagem</p>"
+      titulo:
+        type: "string"
+        example: "titulo da postagem"
+      createAt:
+        type: "string"
+        example: "2019-07-30T13:11:32.167Z"
+      updateAt:
+        type: "string"
+        example: "2019-07-30T13:11:32.167Z"
+      numeroLikes:
+        type: "integer"
+        example: 5
+      numeroComentarios:
+        type: "integer"
+        example: 2
+      imagem:
+        type: "string"
+        example: "6485b3c5-69af-45b6-8080-3b2b96915a15.jpg"
+      __v:
+        type: "integer"
+    example:
+      numeroLikes: 5
+      ativo: true
+      corpo: "<p>texto aleatorio no corpo da postagem</p>"
+      data: "11/7/2019"
+      imagem: "6485b3c5-69af-45b6-8080-3b2b96915a15.jpg"
+      titulo: "titulo da postagem"
+      updateAt: "2019-07-30T13:11:32.167Z"
+      permissao: true
+      interacoes: 6
+      createAt: "2019-07-30T13:11:32.167Z"
+      tags:
+      - "Alura"
+      - "Alura"
+      resolvido: true
+      __v: 0
+      numeroComentarios: 2
+      _id: "5d40420402fcf20034a77ee6"
+      comentarios:
+      - "comentarios"
+      - "comentarios"
+      likes:
+      - "likes"
+      - "likes"
+      username: "borbalbano"
+  ListaHelpCenter:
+    type: "object"
+    properties:
+      postagens:
+        type: "array"
+        items:
+          $ref: "#/definitions/HelpCenter"
+      count:
+        type: "integer"
+        example: 1
+    example:
+      count: 1
+      postagens:
+      - numeroLikes: 5
+        ativo: true
+        corpo: "<p>texto aleatorio no corpo da postagem</p>"
+        data: "11/7/2019"
+        imagem: "6485b3c5-69af-45b6-8080-3b2b96915a15.jpg"
+        titulo: "titulo da postagem"
+        updateAt: "2019-07-30T13:11:32.167Z"
+        permissao: true
+        interacoes: 6
+        createAt: "2019-07-30T13:11:32.167Z"
+        tags:
+        - "Alura"
+        - "Alura"
+        resolvido: true
+        __v: 0
+        numeroComentarios: 2
+        _id: "5d40420402fcf20034a77ee6"
+        comentarios:
+        - "comentarios"
+        - "comentarios"
+        likes:
+        - "likes"
+        - "likes"
+        username: "borbalbano"
+      - numeroLikes: 5
+        ativo: true
+        corpo: "<p>texto aleatorio no corpo da postagem</p>"
+        data: "11/7/2019"
+        imagem: "6485b3c5-69af-45b6-8080-3b2b96915a15.jpg"
+        titulo: "titulo da postagem"
+        updateAt: "2019-07-30T13:11:32.167Z"
+        permissao: true
+        interacoes: 6
+        createAt: "2019-07-30T13:11:32.167Z"
+        tags:
+        - "Alura"
+        - "Alura"
+        resolvido: true
+        __v: 0
+        numeroComentarios: 2
+        _id: "5d40420402fcf20034a77ee6"
+        comentarios:
+        - "comentarios"
+        - "comentarios"
+        likes:
+        - "likes"
+        - "likes"
+        username: "borbalbano"
+  body:
+    type: "object"
+    properties:
+      filtro:
+        type: "string"
+        example: "11-7-2019"
+  DailyNote_corpo:
+    properties:
+      ontem:
+        type: "string"
+        example: "Review, retro e planning da sprint 02"
+      hoje:
+        type: "string"
+        example: "seguir a planning e iniciar a pesquisa sobre chatbots"
+      impedimento:
+        type: "string"
+        example: "nenhum"
+    example:
+      ontem: "Review, retro e planning da sprint 02"
+      hoje: "seguir a planning e iniciar a pesquisa sobre chatbots"
+      impedimento: "nenhum"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

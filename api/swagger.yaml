@@ -299,7 +299,7 @@ definitions:
     properties:
       filtro:
         type: "string"
-        example: "11-7-2019"
+        example: "11/7/2019"
   DailyNote_corpo:
     properties:
       ontem:

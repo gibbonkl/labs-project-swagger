@@ -6,7 +6,7 @@ info:
   title: "Game Of Bols"
   contact:
     email: "rafael.romeu_BOLS@compasso.com.br"
-host: "gob-dev.azurewebsites.net"
+host: "gob-bols.azurewebsites.net"
 basePath: "/"
 tags:
 - name: "DailyNote"

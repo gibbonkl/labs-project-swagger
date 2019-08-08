@@ -4,8 +4,7 @@
   "description": "Server do projeto Game of Bols",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
